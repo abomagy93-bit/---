@@ -209,7 +209,7 @@ export default function App() {
       />
 
       {/* --- NAVIGATION --- */}
-      <nav className="fixed top-0 w-full z-50 px-6 lg:px-16 py-8 flex justify-between items-center mix-blend-difference">
+      <nav className="fixed top-0 w-full z-50 px-6 lg:px-16 py-5 flex justify-between items-center mix-blend-difference">
         <motion.div 
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -332,6 +332,7 @@ export default function App() {
                 src="https://images.unsplash.com/photo-1505664194779-8beaceb93744?q=80&w=2070&auto=format&fit=crop" 
                 alt="Atmospheric Background" 
                 className="w-full h-full object-cover lg:object-top opacity-30 grayscale contrast-125"
+                referrerPolicy="no-referrer"
               />
             </motion.div>
             <motion.div 
@@ -356,15 +357,15 @@ export default function App() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1.2, ease: "easeOut" }}
             >
-              <div className="text-gold text-[10px] lg:text-xs font-black tracking-[0.5em] mb-8 uppercase drop-shadow-glow">
+              <div className="text-gold text-[10px] lg:text-xs font-black tracking-[0.5em] mb-4 uppercase drop-shadow-glow">
                 {t.role}
               </div>
-              <h1 className="hero-title mb-12 relative mt-24 lg:mt-40">
+              <h1 className="hero-title mb-8 relative mt-16 lg:mt-24">
                 <span className="relative z-10">{t.name}</span>
                 <span className="absolute inset-0 text-white/5 blur-sm -translate-y-2 select-none pointer-events-none">{t.name}</span>
               </h1>
-              <div className="w-24 h-[1px] bg-gold/30 mx-auto mb-10" />
-              <p className="max-w-4xl mx-auto text-xl md:text-2xl lg:text-3xl text-white/80 font-medium leading-relaxed italic no-uppercase mb-16 drop-shadow-xl">
+              <div className="w-24 h-[1px] bg-gold/30 mx-auto mb-8" />
+              <p className="max-w-4xl mx-auto text-xl md:text-2xl lg:text-3xl text-white/80 font-medium leading-relaxed italic no-uppercase mb-10 drop-shadow-xl">
                 {t.summary}
               </p>
               
@@ -449,6 +450,8 @@ export default function App() {
                       src={book.image} 
                       alt={book.title[lang]} 
                       className="w-full h-full object-contain p-4 transition-transform duration-1000 group-hover:scale-105"
+                      loading="lazy"
+                      referrerPolicy="no-referrer"
                     />
                     <div className="absolute inset-0 bg-matte-black/80 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center p-12 text-center pointer-events-none">
                       <p className="text-[10px] md:text-xs uppercase font-bold tracking-[0.2em] leading-loose text-white/90">{book.description[lang]}</p>
@@ -653,6 +656,8 @@ export default function App() {
                     src="https://count.getloli.com/get/@karimashmawy_mathal?theme=asoul" 
                     alt="Visitor Counter"
                     className="h-12 opacity-90 hover:opacity-100 transition-all filter drop-shadow-[0_0_10px_rgba(197,160,89,0.3)]"
+                    loading="lazy"
+                    referrerPolicy="no-referrer"
                   />
                   <div className="text-[9px] font-bold text-white/30 uppercase tracking-[0.2em] mt-2">Unique Visitors Count</div>
                 </div>
