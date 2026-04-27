@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://karim-ashmawy.ais.dev/sitemap.xml
