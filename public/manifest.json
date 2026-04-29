@@ -1,0 +1,16 @@
+{
+  "name": "كريم عشماوي | Karim Ashmawy",
+  "short_name": "كريم عشماوي",
+  "description": "الموقع الرسمي للباحث والمفكر كريم عشماوي",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0a0a",
+  "theme_color": "#C5A059",
+  "icons": [
+    {
+      "src": "https://i.ibb.co/cSrXvp6d/20250126-071709.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg"
+    }
+  ]
+}

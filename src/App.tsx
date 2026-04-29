@@ -329,7 +329,7 @@ export default function App() {
               className="w-full h-full"
             >
               <img 
-                src="https://images.unsplash.com/photo-1505664194779-8beaceb93744?q=80&w=2070&auto=format&fit=crop" 
+                src="https://images.unsplash.com/photo-1505664194779-8beaceb93744?q=80&w=1400&auto=format&fit=crop" 
                 alt="Atmospheric Background" 
                 className="w-full h-full object-cover lg:object-top opacity-30 grayscale contrast-125"
                 referrerPolicy="no-referrer"
