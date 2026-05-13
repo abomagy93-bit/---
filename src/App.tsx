@@ -15,7 +15,8 @@ import {
   Library,
   Twitter,
   Instagram,
-  ChevronDown
+  ChevronDown,
+  Youtube
 } from 'lucide-react';
 import { motion, AnimatePresence, useScroll, useSpring, useTransform, useMotionValue } from 'motion/react';
 
@@ -67,8 +68,8 @@ const BOOKS: Book[] = [
 const TRANSLATIONS = {
   ar: {
     name: 'كريم عشماوي',
-    role: 'باحث ومفكر مصري • من نسل الإمام علي بن أبى طالب • مدير مالي بالمدينة المنورة',
-    summary: 'باحث ومفكر مصري يمتد نسبه الشريف إلى مقام الإمام علي بن أبي طالب، يستلهم من جوار الحبيب المصطفى بالمدينة المنورة أنوار المعرفة وبصائر اليقين، باحثاً في ملكوت النص القرآني عن تجليات الهدى وكوامن الحق.',
+    role: 'مفكر وباحث حر • العلم والإيمان • المدينة المنورة',
+    summary: 'مفكر وباحث حر ، خواطر وتأملات عصرية للقرآن والسنة النبوية، العلم والإيمان. يستلهم أبحاثه من جوار الحبيب المصطفى بالمدينة المنورة، رابطاً بين بصائر اليقين ومعطيات العصر.',
     books: 'المكتبة',
     blog: 'المدونة',
     radio: 'إذاعة القرآن',
@@ -84,12 +85,13 @@ const TRANSLATIONS = {
     quranFm: 'إذاعة أهل القرآن',
     quranKareem: 'منصة القرآن الكريم',
     explore: 'استكشف المزيد',
-    scrollDown: 'مرر للأسفل'
+    scrollDown: 'مرر للأسفل',
+    playlist: 'محاضرات مرئية'
   },
   en: {
     name: 'Karim Ashmawy',
-    role: 'RESEARCHER • THINKER • DESCENDANT OF IMAM ALI',
-    summary: 'An Egyptian researcher and thinker, a descendant of Imam Ali bin Abi Talib, carrying the mandate of knowledge from the holy neighborhood of Medina. His work explores the divine radiance of the Quran and its cognitive paths.',
+    role: 'INDEPENDENT THINKER • RESEARCHER • SCIENCE & FAITH',
+    summary: 'Independent thinker and researcher. Modern reflections on the Quran, Sunnah, science, and faith. Inspired by the holy neighborhood of Medina, bridging spiritual insights with contemporary knowledge.',
     books: 'Library',
     blog: 'The Blog',
     radio: 'Quran Radio',
@@ -105,7 +107,8 @@ const TRANSLATIONS = {
     quranFm: 'Ahl Al-Quran FM',
     quranKareem: 'Al-Quran Platform',
     explore: 'Explore More',
-    scrollDown: 'Scroll Down'
+    scrollDown: 'Scroll Down',
+    playlist: 'Video Lectures'
   }
 };
 
@@ -188,6 +191,7 @@ export default function App() {
   const navItems = [
     { label: t.radio, onClick: toggleRadio, icon: <Radio size={12} className={isPlaying ? "text-gold animate-pulse" : "text-gold"} /> },
     { label: t.books, href: '#library' },
+    { label: t.playlist, href: '#lectures' },
     { label: t.platforms, href: '#platforms' },
     { label: t.contact, href: '#footer' }
   ];
@@ -469,6 +473,56 @@ export default function App() {
                   </div>
                 </motion.div>
               ))}
+            </div>
+          </div>
+        </section>
+
+        {/* --- YOUTUBE PLAYLIST SECTION --- */}
+        <section id="lectures" className="py-32 lg:py-48 bg-black px-6">
+          <div className="max-w-6xl mx-auto">
+            <div className="flex flex-col items-center text-center mb-24">
+              <span className="text-gold text-[10px] lg:text-xs font-black tracking-[0.5em] uppercase mb-4 block">YouTube Channel / سلسلة المحاضرات</span>
+              <h2 className="text-5xl md:text-7xl lg:text-8xl font-black italic tracking-tighter uppercase mb-6 leading-none">
+                {t.playlist}
+              </h2>
+              <div className="w-16 h-1 bg-gold glow-gold mx-auto mb-8" />
+              <p className="text-xs uppercase tracking-[0.2em] text-white/40 max-w-lg mx-auto">
+                {lang === 'ar' ? 'انقر على أيقونة القائمة في الزاوية العلوية من الفيديو لمشاهدة قائمة المحاضرات بالكامل' : 'Click the playlist icon in the top right corner of the video to view the full lecture list'}
+              </p>
+            </div>
+
+            <motion.div 
+              initial={{ opacity: 0, y: 50 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 1 }}
+              className="relative aspect-video w-full rounded-[2rem] lg:rounded-[4rem] overflow-hidden border border-white/5 shadow-2xl group bg-matte-black"
+            >
+              <iframe 
+                src="https://www.youtube.com/embed/videoseries?list=PLGUU_GZ29r2y0lhz9ZXxSUhl8DmCc6YL5&rel=0&modestbranding=1" 
+                title="YouTube playlist player" 
+                frameBorder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                allowFullScreen
+                className="absolute inset-0 w-full h-full grayscale-[0.3] group-hover:grayscale-0 transition-all duration-1000"
+              />
+              <div className="absolute inset-0 pointer-events-none border border-gold/5 rounded-[2rem] lg:rounded-[4rem] z-10" />
+            </motion.div>
+
+            <div className="mt-20 flex flex-col items-center gap-8">
+              <div className="flex flex-wrap justify-center gap-6">
+                <motion.a
+                  href="https://youtube.com/playlist?list=PLGUU_GZ29r2y0lhz9ZXxSUhl8DmCc6YL5"
+                  target="_blank"
+                  rel="noreferrer"
+                  whileHover={{ scale: 1.05, backgroundColor: "rgba(220, 38, 38, 0.1)" }}
+                  whileTap={{ scale: 0.95 }}
+                  className="flex items-center gap-4 px-12 py-6 rounded-full border border-red-600/30 bg-red-600/5 transition-all text-red-500 font-black tracking-[0.2em] uppercase text-xs"
+                >
+                  <Youtube size={20} />
+                  <span>{lang === 'ar' ? 'فتح في يوتيوب' : 'Open Full Playlist'}</span>
+                </motion.a>
+              </div>
             </div>
           </div>
         </section>
