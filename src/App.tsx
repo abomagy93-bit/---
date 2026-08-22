@@ -62,6 +62,16 @@ const BOOKS: Book[] = [
     },
     image: 'https://i.ibb.co/pjSTZdWX/20260206-112809.jpg', // Swapped image
     year: '2024'
+  },
+  {
+    id: 'asrar-almihrab',
+    title: { ar: 'أسرار المحراب', en: 'Secrets of Al-Mihrab' },
+    description: { 
+      ar: 'خواطر وتأملات في معاني الصلاة، أسرار الخشوع، والتجليات الإيمانية والروحية في محراب العبادة.',
+      en: 'Reflections and insights into the deeper meanings of prayer, devotion, and spiritual wisdom in the Mihrab.'
+    },
+    image: 'https://i.ibb.co/bjM3gzHk/1787404945252.jpg',
+    year: '2025'
   }
 ];
 
@@ -439,7 +449,7 @@ export default function App() {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-16 lg:gap-24">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10">
               {BOOKS.map((book, i) => (
                 <motion.div
                   key={book.id}
@@ -538,7 +548,7 @@ export default function App() {
             <div className="grid grid-cols-1 md:grid-cols-12 gap-6 lg:gap-8">
               {/* Main Blog Entry */}
               <motion.a 
-                href="https://Karimashmawy.blogspot.com"
+                href="https://kareemashmawy.netlify.app"
                 target="_blank"
                 rel="noreferrer"
                 whileHover={{ y: -5 }}
@@ -555,7 +565,7 @@ export default function App() {
                 </div>
                 <div className="relative z-10">
                   <h3 className="text-5xl lg:text-7xl font-black italic tracking-tighter uppercase mb-6 leading-none">{t.blog}</h3>
-                  <div className="text-[9px] md:text-[10px] font-black tracking-[0.4em] text-white/30 uppercase">Mathal-Nuruh / Digital Research Archive</div>
+                  <div className="text-[9px] md:text-[10px] font-black tracking-[0.4em] text-white/30 uppercase">kareemashmawy.netlify.app / Digital Research Archive</div>
                 </div>
               </motion.a>
 
