@@ -1,9 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
-    <loc>https://karim-ashmawy.ais.dev/</loc>
-    <lastmod>2026-04-29</lastmod>
-    <changefreq>monthly</changefreq>
+    <loc>https://kareemashmawy.netlify.app/</loc>
+    <lastmod>2026-09-27</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://i.ibb.co/cSrXvp6d/20250126-071709.jpg</image:loc>
+      <image:title>كريم عشماوي - مفكر وباحث حر</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://i.ibb.co/cSrXvp6d/20250126-071709.jpg</image:loc>
+      <image:title>غلاف كتاب مثل نوره ١ - كريم عشماوي</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://i.ibb.co/Y4pXxvqm/20260118-084925.png</image:loc>
+      <image:title>غلاف كتاب مثل نوره ٢ - كريم عشماوي</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://i.ibb.co/pjSTZdWX/20260206-112809.jpg</image:loc>
+      <image:title>غلاف كتاب محمديم - كريم عشماوي</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://i.ibb.co/bjM3gzHk/1787404945252.jpg</image:loc>
+      <image:title>غلاف كتاب أسرار المحراب - كريم عشماوي</image:title>
+    </image:image>
+    <image:image>
+      <image:loc>https://i.postimg.cc/Jn9XzndW/file-0000000068e081f48540c5d6af7cc991.png</image:loc>
+      <image:title>غلاف كتاب قصة تروم المسيحية - كريم عشماوي</image:title>
+    </image:image>
   </url>
 </urlset>

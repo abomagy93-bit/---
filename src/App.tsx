@@ -8,15 +8,15 @@ import {
   ArrowUpRight,
   Radio,
   Book as BookIcon,
-  MessageCircle,
   Menu,
   X,
   MapPin,
   Library,
-  Twitter,
-  Instagram,
   ChevronDown,
-  Youtube
+  ChevronLeft,
+  ChevronRight,
+  Youtube,
+  ZoomIn
 } from 'lucide-react';
 import { motion, AnimatePresence, useScroll, useSpring, useTransform, useMotionValue } from 'motion/react';
 
@@ -27,50 +27,46 @@ type Language = 'ar' | 'en';
 interface Book {
   id: string;
   title: Record<Language, string>;
-  description: Record<Language, string>;
   image: string;
   year: string;
+}
+
+interface ImagePreview {
+  url: string;
+  title: string;
+  year?: string;
+  alt: string;
 }
 
 const BOOKS: Book[] = [
   {
     id: 'mathal-1',
-    title: { ar: 'مثل نوره ١', en: "Parable of God's light 1" },
-    description: { 
-      ar: 'يستكشف أسرار النور الإلهي في التوراة والإنجيل، والطب النبوي، وقضايا الربا في منظور العلم الحديث.',
-      en: 'Explores the secrets of Divine Light in the Torah and Gospel, Prophetic medicine, and modern finance.'
-    },
+    title: { ar: 'مثل نوره ١', en: "Parable of God's Light 1" },
     image: 'https://i.ibb.co/cSrXvp6d/20250126-071709.jpg',
     year: '2022'
   },
   {
     id: 'mathal-2',
-    title: { ar: 'مثل نوره ٢', en: "Parable of God's light 2" },
-    description: { 
-      ar: 'يتعمق في خلق المسيح، النسبة الذهبية، أسرار غزة، ومواجهة الشيطان في عصر الذكاء الاصطناعي.',
-      en: 'Delves into the creation of Christ, the Golden Ratio, Gaza secrets, and AI-era challenges.'
-    },
-    image: 'https://i.ibb.co/Y4pXxvqm/20260118-084925.png', // Swapped image
+    title: { ar: 'مثل نوره ٢', en: "Parable of God's Light 2" },
+    image: 'https://i.ibb.co/Y4pXxvqm/20260118-084925.png',
     year: '2023'
   },
   {
     id: 'mohammadim',
     title: { ar: 'محمديم', en: 'Mohammadim' },
-    description: { 
-      ar: 'تحليل للنبي محمد في الكتب السابقة، ومعجزات القرآن والسنة، وأساسيات التجويد بأسلوب عصري.',
-      en: 'Analysis of Prophet Muhammad in ancient scriptures and modern Tajweed basics.'
-    },
-    image: 'https://i.ibb.co/pjSTZdWX/20260206-112809.jpg', // Swapped image
+    image: 'https://i.ibb.co/pjSTZdWX/20260206-112809.jpg',
     year: '2024'
   },
   {
     id: 'asrar-almihrab',
     title: { ar: 'أسرار المحراب', en: 'Secrets of Al-Mihrab' },
-    description: { 
-      ar: 'خواطر وتأملات في معاني الصلاة، أسرار الخشوع، والتجليات الإيمانية والروحية في محراب العبادة.',
-      en: 'Reflections and insights into the deeper meanings of prayer, devotion, and spiritual wisdom in the Mihrab.'
-    },
     image: 'https://i.ibb.co/bjM3gzHk/1787404945252.jpg',
+    year: '2025'
+  },
+  {
+    id: 'qissat-tarawm-almasihiyya',
+    title: { ar: 'قصة تروم المسيحية', en: 'The Christianization of Rome' },
+    image: 'https://i.postimg.cc/Jn9XzndW/file-0000000068e081f48540c5d6af7cc991.png',
     year: '2025'
   }
 ];
@@ -87,6 +83,7 @@ const TRANSLATIONS = {
     platforms: 'المنصات الرقمية',
     contact: 'تواصل',
     scribd: 'سكريبد',
+    ktobati: 'كتوباتي',
     noorBook: 'نور بوك',
     foulabook: 'فولة بوك',
     footer: 'جميع الحقوق محفوظة © ٢٠٢٤ كريم عشماوي',
@@ -96,7 +93,9 @@ const TRANSLATIONS = {
     quranKareem: 'منصة القرآن الكريم',
     explore: 'استكشف المزيد',
     scrollDown: 'مرر للأسفل',
-    playlist: 'محاضرات مرئية'
+    playlist: 'محاضرات مرئية',
+    close: 'إغلاق',
+    enlargeHint: 'انقر لتكبير الصورة'
   },
   en: {
     name: 'Karim Ashmawy',
@@ -109,6 +108,7 @@ const TRANSLATIONS = {
     platforms: 'Digital Platforms',
     contact: 'Contact',
     scribd: 'Scribd',
+    ktobati: 'Ktobati',
     noorBook: 'Noor Book',
     foulabook: 'Foulabook',
     footer: 'All Rights Reserved © 2024 Karim Ashmawy',
@@ -118,7 +118,9 @@ const TRANSLATIONS = {
     quranKareem: 'Al-Quran Platform',
     explore: 'Explore More',
     scrollDown: 'Scroll Down',
-    playlist: 'Video Lectures'
+    playlist: 'Video Lectures',
+    close: 'Close',
+    enlargeHint: 'Click to enlarge image'
   }
 };
 
@@ -126,7 +128,9 @@ export default function App() {
   const [lang, setLang] = useState<Language>('ar');
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [activePreview, setActivePreview] = useState<ImagePreview | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
+  const libraryScrollRef = useRef<HTMLDivElement | null>(null);
   
   const { scrollY } = useScroll();
   const scaleX = useSpring(useTransform(scrollY, [0, 5000], [0, 1]), {
@@ -160,6 +164,17 @@ export default function App() {
     document.documentElement.dir = isRtl ? 'rtl' : 'ltr';
     document.documentElement.lang = lang;
   }, [lang, isRtl]);
+
+  // Handle ESC key for image modal
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setActivePreview(null);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   useEffect(() => {
     if ('mediaSession' in navigator && isPlaying) {
@@ -195,6 +210,13 @@ export default function App() {
         audioRef.current.play().catch(err => console.error("Radio play failed:", err));
       }
       setIsPlaying(!isPlaying);
+    }
+  };
+
+  const scrollLibrary = (direction: 'left' | 'right') => {
+    if (libraryScrollRef.current) {
+      const scrollAmount = isRtl ? (direction === 'left' ? 320 : -320) : (direction === 'left' ? -320 : 320);
+      libraryScrollRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
     }
   };
 
@@ -249,8 +271,6 @@ export default function App() {
                 <a 
                   key={item.label}
                   href={item.href}
-                  target={item.isExternal ? "_blank" : undefined}
-                  rel={item.isExternal ? "noreferrer" : undefined}
                   className="text-[10px] font-bold tracking-[0.3em] uppercase opacity-50 hover:opacity-100 transition-opacity flex items-center gap-2"
                 >
                   {item.icon}
@@ -315,8 +335,6 @@ export default function App() {
                 <a 
                   key={item.label}
                   href={item.href}
-                  target={item.isExternal ? "_blank" : undefined}
-                  rel={item.isExternal ? "noreferrer" : undefined}
                   onClick={() => setIsMenuOpen(false)}
                   className="text-5xl font-black italic tracking-tighter uppercase flex items-center gap-4"
                 >
@@ -325,6 +343,59 @@ export default function App() {
                 </a>
               )
             ))}
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* --- CLEAN IMAGE LIGHTBOX MODAL --- */}
+      <AnimatePresence>
+        {activePreview && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setActivePreview(null)}
+            className="fixed inset-0 z-[100] bg-black/90 backdrop-blur-md flex flex-col items-center justify-center p-4"
+          >
+            {/* Close Button */}
+            <button
+              onClick={(e) => { e.stopPropagation(); setActivePreview(null); }}
+              className="absolute top-6 right-6 p-3 rounded-full bg-zinc-900 border border-gold/40 hover:bg-gold hover:text-black transition-all text-white shadow-2xl z-20 cursor-pointer"
+              title={t.close}
+            >
+              <X size={22} />
+            </button>
+
+            {/* Modal Natural Size Image Container */}
+            <motion.div 
+              initial={{ scale: 0.95, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.95, opacity: 0 }}
+              transition={{ type: "spring", damping: 25, stiffness: 300 }}
+              onClick={(e) => e.stopPropagation()}
+              className="flex flex-col items-center max-w-2xl w-full max-h-[90vh] bg-zinc-950/90 border border-gold/30 rounded-2xl p-6 shadow-2xl overflow-hidden"
+            >
+              <div className="relative max-h-[70vh] flex items-center justify-center overflow-hidden rounded-xl border border-white/10 bg-black/60 p-2">
+                <img 
+                  src={activePreview.url} 
+                  alt={activePreview.alt} 
+                  title={activePreview.title}
+                  className="max-h-[65vh] max-w-full object-contain rounded-lg filter drop-shadow-[0_0_20px_rgba(197,160,89,0.2)]"
+                  referrerPolicy="no-referrer"
+                />
+              </div>
+
+              <div className="mt-4 text-center">
+                {activePreview.year && (
+                  <span className="text-gold text-[11px] font-black tracking-[0.3em] uppercase block mb-1">
+                    {activePreview.year}
+                  </span>
+                )}
+                <h3 className="text-xl md:text-2xl font-black italic tracking-tighter text-white">
+                  {activePreview.title}
+                </h3>
+              </div>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
@@ -344,8 +415,10 @@ export default function App() {
             >
               <img 
                 src="https://images.unsplash.com/photo-1505664194779-8beaceb93744?q=80&w=1400&auto=format&fit=crop" 
-                alt="Atmospheric Background" 
+                alt="خلفية ضوئية - كريم عشماوي" 
+                title="كريم عشماوي - مفكر وباحث حر"
                 className="w-full h-full object-cover lg:object-top opacity-30 grayscale contrast-125"
+                loading="eager"
                 referrerPolicy="no-referrer"
               />
             </motion.div>
@@ -385,7 +458,7 @@ export default function App() {
               
               <div className="flex flex-col md:flex-row gap-8 justify-center items-center">
                 <motion.a
-                  href="https://Karimashmawy.blogspot.com"
+                  href="https://kareemashmawy.netlify.app"
                   target="_blank"
                   rel="noreferrer"
                   whileHover={{ scale: 1.05, boxShadow: "0 0 30px rgba(197, 160, 89, 0.3)" }}
@@ -432,57 +505,83 @@ export default function App() {
           </motion.div>
         </section>
 
-        {/* --- LIBRARY SECTION --- */}
-        <section id="library" className="py-32 lg:py-48 bg-zinc-950/50 backdrop-blur-sm px-6">
-          <div className="max-w-6xl mx-auto">
-            <div className="flex flex-col items-center text-center mb-24 gap-8">
-              <div className="max-w-xl flex flex-col items-center">
-                <h2 className="text-5xl md:text-7xl lg:text-8xl font-black italic tracking-tighter uppercase mb-6 leading-[0.85]">
+        {/* --- LIBRARY SECTION (NATURAL HORIZONTAL SHOWCASE) --- */}
+        <section id="library" className="py-24 lg:py-36 bg-zinc-950/60 backdrop-blur-sm px-4 lg:px-12 overflow-hidden">
+          <div className="max-w-7xl mx-auto">
+            <div className="flex items-center justify-between mb-12">
+              <div>
+                <h2 className="text-4xl md:text-6xl font-black italic tracking-tighter uppercase leading-none">
                   {t.books}
                 </h2>
-                <div className="w-16 h-1 bg-gold glow-gold mx-auto" />
+                <div className="w-16 h-1 bg-gold glow-gold mt-3" />
               </div>
-              <div className="text-white/40 text-sm md:text-base font-medium leading-relaxed max-w-sm no-uppercase italic">
-                {lang === 'ar' 
-                  ? 'رؤية عميقة في ماهية الوجود الإنساني والعلاقة بالخالق عبر النص القرآني.' 
-                  : 'Deep exploration into human existence and the divine relationship through the Quranic text.'}
+
+              {/* Horizontal Scroll Arrows Navigation */}
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={() => scrollLibrary('right')}
+                  className="w-11 h-11 rounded-full border border-gold/30 bg-black/60 text-gold flex items-center justify-center hover:bg-gold hover:text-black transition-all shadow-glow cursor-pointer active:scale-95"
+                  title="السابق"
+                >
+                  <ChevronRight size={20} />
+                </button>
+                <button
+                  onClick={() => scrollLibrary('left')}
+                  className="w-11 h-11 rounded-full border border-gold/30 bg-black/60 text-gold flex items-center justify-center hover:bg-gold hover:text-black transition-all shadow-glow cursor-pointer active:scale-95"
+                  title="التالي"
+                >
+                  <ChevronLeft size={20} />
+                </button>
               </div>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-10">
-              {BOOKS.map((book, i) => (
-                <motion.div
-                  key={book.id}
-                  initial={{ opacity: 0, y: 50 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.1, duration: 0.8 }}
-                  className="group"
-                >
-                  <div className="relative aspect-[3/4] mb-10 overflow-hidden bg-zinc-900 border border-white/5 shadow-2xl rounded-sm group-hover:border-gold/20 transition-colors">
-                    <img 
-                      src={book.image} 
-                      alt={book.title[lang]} 
-                      className="w-full h-full object-contain p-4 transition-transform duration-1000 group-hover:scale-105"
-                      loading="lazy"
-                      referrerPolicy="no-referrer"
-                    />
-                    <div className="absolute inset-0 bg-matte-black/80 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center p-12 text-center pointer-events-none">
-                      <p className="text-[10px] md:text-xs uppercase font-bold tracking-[0.2em] leading-loose text-white/90">{book.description[lang]}</p>
+            {/* Horizontal Books Scroll Container with Natural Compact Cover Sizes */}
+            <div className="relative">
+              <div 
+                ref={libraryScrollRef}
+                className="flex overflow-x-auto gap-5 sm:gap-6 pb-8 pt-2 px-1 snap-x snap-mandatory scroll-smooth cursor-grab active:cursor-grabbing"
+                style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+              >
+                {BOOKS.map((book, i) => (
+                  <motion.div
+                    key={book.id}
+                    initial={{ opacity: 0, x: 30 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ delay: i * 0.08, duration: 0.6 }}
+                    className="snap-center w-48 sm:w-56 flex-shrink-0 bg-stone-900/80 border border-white/10 hover:border-gold/50 rounded-2xl p-4 transition-all duration-300 shadow-xl flex flex-col justify-between group cursor-pointer"
+                    onClick={() => setActivePreview({
+                      url: book.image,
+                      title: book.title[lang],
+                      year: book.year,
+                      alt: `غلاف كتاب ${book.title.ar} - كريم عشماوي`
+                    })}
+                  >
+                    {/* Compact Natural Book Cover Image */}
+                    <div className="relative w-full h-64 sm:h-72 bg-black/90 rounded-xl overflow-hidden border border-white/10 group-hover:border-gold/40 transition-colors p-2 flex items-center justify-center mb-3">
+                      <img 
+                        src={book.image} 
+                        alt={`غلاف كتاب ${book.title[lang]} - كريم عشماوي`} 
+                        title={`${book.title[lang]} - كريم عشماوي`}
+                        className="max-w-full max-h-full object-contain transition-transform duration-500 group-hover:scale-105"
+                        loading="lazy"
+                        referrerPolicy="no-referrer"
+                      />
+                      <div className="absolute top-2 right-2 p-1.5 rounded-full bg-black/80 text-gold border border-gold/30 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <ZoomIn size={14} />
+                      </div>
                     </div>
-                    <div className="absolute bottom-6 right-6 opacity-0 group-hover:opacity-100 transition-opacity">
-                      <span className="w-12 h-12 rounded-full glass-dark flex items-center justify-center text-gold shadow-glow">
-                        <ArrowUpRight size={20} />
-                      </span>
+
+                    {/* Book Title & Year */}
+                    <div className="flex flex-col gap-1 text-center">
+                      <span className="text-[10px] font-black text-gold tracking-widest uppercase">{book.year}</span>
+                      <h3 className="text-lg font-black italic tracking-tighter uppercase text-white group-hover:text-gold transition-colors leading-tight">
+                        {book.title[lang]}
+                      </h3>
                     </div>
-                  </div>
-                  
-                  <div className="flex flex-col gap-2">
-                    <span className="text-[10px] font-black text-gold tracking-[0.4em] uppercase">{book.year}</span>
-                    <h3 className="text-2xl md:text-3xl font-black italic tracking-tighter uppercase group-hover:text-gold transition-colors">{book.title[lang]}</h3>
-                  </div>
-                </motion.div>
-              ))}
+                  </motion.div>
+                ))}
+              </div>
             </div>
           </div>
         </section>
@@ -510,7 +609,7 @@ export default function App() {
             >
               <iframe 
                 src="https://www.youtube.com/embed/videoseries?list=PLGUU_GZ29r2y0lhz9ZXxSUhl8DmCc6YL5&rel=0&modestbranding=1" 
-                title="YouTube playlist player" 
+                title="سلسلة محاضرات كريم عشماوي - يوتيوب" 
                 frameBorder="0" 
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
                 allowFullScreen
@@ -530,7 +629,7 @@ export default function App() {
                   className="flex items-center gap-4 px-12 py-6 rounded-full border border-red-600/30 bg-red-600/5 transition-all text-red-500 font-black tracking-[0.2em] uppercase text-xs"
                 >
                   <Youtube size={20} />
-                  <span>{lang === 'ar' ? 'فتح في يوتيوب' : 'Open Full Playlist'}</span>
+                  <span>{lang === 'ar' ? 'فتح السلسلة في يوتيوب' : 'Open Full Playlist'}</span>
                 </motion.a>
               </div>
             </div>
@@ -552,7 +651,7 @@ export default function App() {
                 target="_blank"
                 rel="noreferrer"
                 whileHover={{ y: -5 }}
-                className="md:col-span-8 p-12 lg:p-16 rounded-[3rem] bg-stone-900 border border-white/5 flex flex-col justify-between group overflow-hidden relative shadow-2xl"
+                className="md:col-span-12 lg:col-span-8 p-12 lg:p-16 rounded-[3rem] bg-stone-900 border border-white/5 flex flex-col justify-between group overflow-hidden relative shadow-2xl"
               >
                 <div className="absolute top-0 right-0 w-80 h-80 bg-gold/5 blur-[120px] rounded-full animate-pulse" />
                 <div className="flex justify-between items-start relative z-10 mb-20">
@@ -565,7 +664,7 @@ export default function App() {
                 </div>
                 <div className="relative z-10">
                   <h3 className="text-5xl lg:text-7xl font-black italic tracking-tighter uppercase mb-6 leading-none">{t.blog}</h3>
-                  <div className="text-[9px] md:text-[10px] font-black tracking-[0.4em] text-white/30 uppercase">kareemashmawy.netlify.app / Digital Research Archive</div>
+                  <div className="text-[9px] md:text-[10px] font-black tracking-[0.4em] text-white/30 uppercase">kareemashmawy.netlify.app</div>
                 </div>
               </motion.a>
 
@@ -575,12 +674,28 @@ export default function App() {
                 target="_blank"
                 rel="noreferrer"
                 whileHover={{ y: -10 }}
-                className="md:col-span-4 p-10 rounded-[3rem] glass-dark border border-white/5 flex flex-col justify-between group"
+                className="md:col-span-6 lg:col-span-4 p-10 rounded-[3rem] glass-dark border border-white/5 flex flex-col justify-between group"
               >
                 <Library size={32} className="text-gold" />
                 <div>
                   <h4 className="text-2xl font-black italic tracking-tighter uppercase mb-2 group-hover:text-gold transition-colors">{t.scribd}</h4>
                   <div className="text-[10px] font-bold text-white/20 uppercase tracking-widest">Research Archive</div>
+                </div>
+              </motion.a>
+
+              {/* Ktobati / كتوباتي - Added right after Scribd */}
+              <motion.a 
+                href="https://www.ktobati.com/author/%D9%83%D8%B1%D9%8A%D9%85-%D8%B9%D8%B4%D9%85%D8%A7%D9%88%D9%8A"
+                target="_blank"
+                rel="noreferrer"
+                whileHover={{ y: -10 }}
+                className="md:col-span-6 lg:col-span-4 p-10 rounded-[3rem] glass-dark border border-gold/20 flex flex-col justify-between group relative overflow-hidden bg-stone-950/80"
+              >
+                <div className="absolute top-0 right-0 w-32 h-32 bg-gold/5 blur-[50px] rounded-full" />
+                <BookIcon size={32} className="text-gold group-hover:scale-110 transition-transform" />
+                <div>
+                  <h4 className="text-2xl font-black italic tracking-tighter uppercase mb-2 group-hover:text-gold transition-colors">{t.ktobati}</h4>
+                  <div className="text-[10px] font-bold text-gold/50 uppercase tracking-widest">المكتبة الرقمية • Digital Library</div>
                 </div>
               </motion.a>
 
@@ -590,7 +705,7 @@ export default function App() {
                 target="_blank"
                 rel="noreferrer"
                 whileHover={{ y: -10 }}
-                className="md:col-span-4 p-10 rounded-[3rem] glass-dark border border-white/5 flex flex-col justify-between group"
+                className="md:col-span-6 lg:col-span-4 p-10 rounded-[3rem] glass-dark border border-white/5 flex flex-col justify-between group"
               >
                 <BookIcon size={32} className="text-white/40 group-hover:text-gold transition-colors" />
                 <div>
@@ -605,7 +720,7 @@ export default function App() {
                 target="_blank"
                 rel="noreferrer"
                 whileHover={{ y: -10 }}
-                className="md:col-span-4 p-12 rounded-[3rem] glass-dark border border-white/5 flex flex-col justify-between group"
+                className="md:col-span-6 lg:col-span-4 p-12 rounded-[3rem] glass-dark border border-white/5 flex flex-col justify-between group"
               >
                 <BookIcon size={32} className="text-white/40 group-hover:text-gold transition-colors" />
                 <div>
@@ -620,7 +735,7 @@ export default function App() {
                 target="_blank"
                 rel="noreferrer"
                 whileHover={{ y: -10 }}
-                className="md:col-span-4 p-12 rounded-[3.5rem] bg-black border border-gold/30 flex flex-col justify-between group overflow-hidden relative"
+                className="md:col-span-6 lg:col-span-4 p-12 rounded-[3.5rem] bg-black border border-gold/30 flex flex-col justify-between group overflow-hidden relative"
               >
                 <div className="absolute inset-0 bg-gold/5 opacity-0 group-hover:opacity-100 transition-opacity" />
                 <BookOpen size={40} className="text-gold" />
@@ -638,7 +753,7 @@ export default function App() {
                 target="_blank"
                 rel="noreferrer"
                 whileHover={{ y: -10 }}
-                className="md:col-span-4 p-10 rounded-[3rem] border border-gold/10 flex flex-col justify-between group bg-zinc-950/50"
+                className="md:col-span-6 lg:col-span-4 p-10 rounded-[3rem] border border-gold/10 flex flex-col justify-between group bg-zinc-950/50"
               >
                 <Radio size={32} className="text-gold" />
                 <div>
@@ -718,7 +833,8 @@ export default function App() {
                 <div className="flex flex-col items-center gap-2 relative z-10">
                   <img 
                     src="https://count.getloli.com/get/@karimashmawy_mathal?theme=asoul" 
-                    alt="Visitor Counter"
+                    alt="عداد الزوار المباشر لموقع كريم عشماوي"
+                    title="إحصائيات الزوار المباشرة"
                     className="h-12 opacity-90 hover:opacity-100 transition-all filter drop-shadow-[0_0_10px_rgba(197,160,89,0.3)]"
                     loading="lazy"
                     referrerPolicy="no-referrer"
