@@ -215,7 +215,7 @@ export default function App() {
 
   const scrollLibrary = (direction: 'left' | 'right') => {
     if (libraryScrollRef.current) {
-      const scrollAmount = isRtl ? (direction === 'left' ? 320 : -320) : (direction === 'left' ? -320 : 320);
+      const scrollAmount = isRtl ? (direction === 'left' ? 280 : -280) : (direction === 'left' ? -280 : 280);
       libraryScrollRef.current.scrollBy({ left: scrollAmount, behavior: 'smooth' });
     }
   };
@@ -245,24 +245,24 @@ export default function App() {
       />
 
       {/* --- NAVIGATION --- */}
-      <nav className="fixed top-0 w-full z-50 px-6 lg:px-16 py-5 flex justify-between items-center mix-blend-difference">
+      <nav className="fixed top-0 w-full z-50 px-4 sm:px-8 lg:px-16 py-3 lg:py-4 flex justify-between items-center bg-black/60 backdrop-blur-md border-b border-white/5">
         <motion.div 
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           className="text-[10px] lg:text-xs font-black italic tracking-tighter cursor-pointer flex items-center gap-2 group"
         >
-          <div className="w-4 h-4 rounded-full border border-white flex items-center justify-center text-[6px] group-hover:bg-white group-hover:text-black transition-all">KA</div>
-          <span className="hidden sm:block uppercase tracking-[0.2em] text-[9px] font-black opacity-40 group-hover:opacity-100 transition-all">{t.name}</span>
+          <div className="w-5 h-5 rounded-full border border-gold flex items-center justify-center text-[7px] group-hover:bg-gold group-hover:text-black transition-all font-bold text-gold">KA</div>
+          <span className="hidden sm:block uppercase tracking-[0.2em] text-[9px] font-black opacity-80 group-hover:opacity-100 transition-all">{t.name}</span>
         </motion.div>
 
-        <div className="flex items-center gap-10">
-          <div className="hidden lg:flex gap-12 items-center">
+        <div className="flex items-center gap-4 sm:gap-8">
+          <div className="hidden lg:flex gap-10 items-center">
             {navItems.map((item) => (
               item.onClick ? (
                 <button 
                   key={item.label}
                   onClick={item.onClick}
-                  className="text-[10px] font-bold tracking-[0.3em] uppercase opacity-50 hover:opacity-100 transition-opacity flex items-center gap-2 cursor-pointer"
+                  className="text-[10px] font-bold tracking-[0.25em] uppercase opacity-60 hover:opacity-100 hover:text-gold transition-all flex items-center gap-2 cursor-pointer"
                 >
                   {item.icon}
                   {item.label}
@@ -271,7 +271,7 @@ export default function App() {
                 <a 
                   key={item.label}
                   href={item.href}
-                  className="text-[10px] font-bold tracking-[0.3em] uppercase opacity-50 hover:opacity-100 transition-opacity flex items-center gap-2"
+                  className="text-[10px] font-bold tracking-[0.25em] uppercase opacity-60 hover:opacity-100 hover:text-gold transition-all flex items-center gap-2"
                 >
                   {item.icon}
                   {item.label}
@@ -289,19 +289,20 @@ export default function App() {
           
           {/* Top Separated Radio Button */}
           <motion.button
-            whileHover={{ scale: 1.1 }}
-            whileTap={{ scale: 0.9 }}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
             onClick={toggleRadio}
-            className={`w-10 h-10 rounded-full border flex items-center justify-center transition-all ${isPlaying ? 'bg-gold border-gold text-black shadow-glow' : 'border-white/20 text-white/50 hover:border-gold hover:text-gold'}`}
+            className={`w-9 h-9 rounded-full border flex items-center justify-center transition-all ${isPlaying ? 'bg-gold border-gold text-black shadow-glow' : 'border-white/20 text-white/70 hover:border-gold hover:text-gold'}`}
+            title={t.radio}
           >
-            {isPlaying ? <Pause size={18} /> : <Play size={18} fill="currentColor" />}
+            {isPlaying ? <Pause size={16} /> : <Play size={16} fill="currentColor" />}
           </motion.button>
           
           <button 
             onClick={() => setIsMenuOpen(true)}
-            className="lg:hidden p-2"
+            className="lg:hidden p-2 text-white/80 hover:text-white"
           >
-            <Menu size={24} />
+            <Menu size={22} />
           </button>
         </div>
       </nav>
@@ -313,22 +314,22 @@ export default function App() {
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="fixed inset-0 z-[60] bg-matte-black flex flex-col items-center justify-center gap-10 text-center"
+            className="fixed inset-0 z-[60] bg-matte-black flex flex-col items-center justify-center gap-8 text-center p-6"
           >
             <button 
               onClick={() => setIsMenuOpen(false)}
-              className="absolute top-10 right-10 p-4 rounded-full glass"
+              className="absolute top-6 right-6 p-3 rounded-full bg-zinc-900 border border-white/10 text-white"
             >
-              <X size={32} />
+              <X size={26} />
             </button>
             {navItems.map((item) => (
               item.onClick ? (
                 <button 
                   key={item.label}
                   onClick={() => { item.onClick!(); setIsMenuOpen(false); }}
-                  className="text-5xl font-black italic tracking-tighter uppercase flex items-center gap-4"
+                  className="text-3xl sm:text-4xl font-black italic tracking-tighter uppercase flex items-center gap-3 text-white/90 hover:text-gold transition-colors"
                 >
-                  {item.icon && React.cloneElement(item.icon as React.ReactElement, { size: 40 })}
+                  {item.icon && React.cloneElement(item.icon as React.ReactElement, { size: 28 })}
                   {item.label}
                 </button>
               ) : (
@@ -336,9 +337,9 @@ export default function App() {
                   key={item.label}
                   href={item.href}
                   onClick={() => setIsMenuOpen(false)}
-                  className="text-5xl font-black italic tracking-tighter uppercase flex items-center gap-4"
+                  className="text-3xl sm:text-4xl font-black italic tracking-tighter uppercase flex items-center gap-3 text-white/90 hover:text-gold transition-colors"
                 >
-                  {item.icon && React.cloneElement(item.icon as React.ReactElement, { size: 40 })}
+                  {item.icon && React.cloneElement(item.icon as React.ReactElement, { size: 28 })}
                   {item.label}
                 </a>
               )
@@ -373,25 +374,25 @@ export default function App() {
               exit={{ scale: 0.95, opacity: 0 }}
               transition={{ type: "spring", damping: 25, stiffness: 300 }}
               onClick={(e) => e.stopPropagation()}
-              className="flex flex-col items-center max-w-2xl w-full max-h-[90vh] bg-zinc-950/90 border border-gold/30 rounded-2xl p-6 shadow-2xl overflow-hidden"
+              className="flex flex-col items-center max-w-lg w-full max-h-[85vh] bg-zinc-950/95 border border-gold/30 rounded-2xl p-5 shadow-2xl overflow-hidden"
             >
-              <div className="relative max-h-[70vh] flex items-center justify-center overflow-hidden rounded-xl border border-white/10 bg-black/60 p-2">
+              <div className="relative max-h-[65vh] flex items-center justify-center overflow-hidden rounded-xl border border-white/10 bg-black/60 p-2">
                 <img 
                   src={activePreview.url} 
                   alt={activePreview.alt} 
                   title={activePreview.title}
-                  className="max-h-[65vh] max-w-full object-contain rounded-lg filter drop-shadow-[0_0_20px_rgba(197,160,89,0.2)]"
+                  className="max-h-[60vh] max-w-full object-contain rounded-lg filter drop-shadow-[0_0_20px_rgba(197,160,89,0.2)]"
                   referrerPolicy="no-referrer"
                 />
               </div>
 
               <div className="mt-4 text-center">
                 {activePreview.year && (
-                  <span className="text-gold text-[11px] font-black tracking-[0.3em] uppercase block mb-1">
+                  <span className="text-gold text-[10px] font-black tracking-[0.3em] uppercase block mb-1">
                     {activePreview.year}
                   </span>
                 )}
-                <h3 className="text-xl md:text-2xl font-black italic tracking-tighter text-white">
+                <h3 className="text-lg md:text-xl font-black italic tracking-tighter text-white">
                   {activePreview.title}
                 </h3>
               </div>
@@ -401,8 +402,8 @@ export default function App() {
       </AnimatePresence>
 
       <main onMouseMove={handleMouseMove}>
-        {/* --- HERO SECTION --- */}
-        <section id="home" className="relative h-[90vh] lg:h-screen flex flex-col justify-center items-center text-center px-6 overflow-hidden">
+        {/* --- HERO SECTION (OPTIMIZED BALANCED SPACING) --- */}
+        <section id="home" className="relative min-h-[90vh] lg:min-h-screen flex flex-col justify-center items-center text-center px-4 sm:px-6 pt-20 pb-12 lg:pt-24 lg:pb-16 overflow-hidden">
           {/* Background Image with Parallax & Overlay */}
           <div className="absolute inset-0 z-0">
             <motion.div 
@@ -417,7 +418,7 @@ export default function App() {
                 src="https://images.unsplash.com/photo-1505664194779-8beaceb93744?q=80&w=1400&auto=format&fit=crop" 
                 alt="خلفية ضوئية - كريم عشماوي" 
                 title="كريم عشماوي - مفكر وباحث حر"
-                className="w-full h-full object-cover lg:object-top opacity-30 grayscale contrast-125"
+                className="w-full h-full object-cover lg:object-top opacity-25 grayscale contrast-125"
                 loading="eager"
                 referrerPolicy="no-referrer"
               />
@@ -434,49 +435,49 @@ export default function App() {
             <div className="absolute inset-0 bg-gradient-to-b from-transparent via-matte-black/60 to-matte-black" />
           </div>
 
-          <div className="relative z-10 max-w-6xl w-full">
+          <div className="relative z-10 max-w-5xl w-full my-auto">
             <motion.div
               style={{
-                x: useTransform(smoothMouseX, [-0.5, 0.5], ['-20px', '20px']),
-                y: useTransform(smoothMouseY, [-0.5, 0.5], ['-20px', '20px']),
+                x: useTransform(smoothMouseX, [-0.5, 0.5], ['-10px', '10px']),
+                y: useTransform(smoothMouseY, [-0.5, 0.5], ['-10px', '10px']),
               }}
-              initial={{ opacity: 0, y: 50 }}
+              initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1.2, ease: "easeOut" }}
+              transition={{ duration: 1, ease: "easeOut" }}
             >
-              <div className="text-gold text-[10px] lg:text-xs font-black tracking-[0.5em] mb-4 uppercase drop-shadow-glow">
+              <div className="text-gold text-[10px] sm:text-xs font-black tracking-[0.4em] mb-3 uppercase drop-shadow-glow">
                 {t.role}
               </div>
-              <h1 className="hero-title mb-8 relative mt-16 lg:mt-24">
+              <h1 className="hero-title mb-4 relative">
                 <span className="relative z-10">{t.name}</span>
-                <span className="absolute inset-0 text-white/5 blur-sm -translate-y-2 select-none pointer-events-none">{t.name}</span>
+                <span className="absolute inset-0 text-white/5 blur-sm -translate-y-1 select-none pointer-events-none">{t.name}</span>
               </h1>
-              <div className="w-24 h-[1px] bg-gold/30 mx-auto mb-8" />
-              <p className="max-w-4xl mx-auto text-xl md:text-2xl lg:text-3xl text-white/80 font-medium leading-relaxed italic no-uppercase mb-10 drop-shadow-xl">
+              <div className="w-20 h-[1px] bg-gold/40 mx-auto mb-6" />
+              <p className="max-w-3xl mx-auto text-base sm:text-xl lg:text-2xl text-white/85 font-medium leading-relaxed italic no-uppercase mb-8 drop-shadow-xl px-2">
                 {t.summary}
               </p>
               
-              <div className="flex flex-col md:flex-row gap-8 justify-center items-center">
+              <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center">
                 <motion.a
                   href="https://kareemashmawy.netlify.app"
                   target="_blank"
                   rel="noreferrer"
-                  whileHover={{ scale: 1.05, boxShadow: "0 0 30px rgba(197, 160, 89, 0.3)" }}
-                  whileTap={{ scale: 0.95 }}
-                  className="luxury-button relative overflow-hidden group min-w-[220px]"
+                  whileHover={{ scale: 1.03, boxShadow: "0 0 25px rgba(197, 160, 89, 0.3)" }}
+                  whileTap={{ scale: 0.97 }}
+                  className="luxury-button relative overflow-hidden group min-w-[200px] text-xs sm:text-sm py-4"
                 >
                   <span className="relative z-10">{t.visitBlog}</span>
                   <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
                 </motion.a>
 
                 <motion.button 
-                  whileHover={{ scale: 1.05, boxShadow: "0 0 30px rgba(197, 160, 89, 0.2)" }}
-                  whileTap={{ scale: 0.95 }}
+                  whileHover={{ scale: 1.03, boxShadow: "0 0 25px rgba(197, 160, 89, 0.2)" }}
+                  whileTap={{ scale: 0.97 }}
                   onClick={toggleRadio}
-                  className={`relative flex items-center justify-center gap-4 px-10 py-5 rounded-full border transition-all duration-500 overflow-hidden min-w-[220px] ${isPlaying ? 'bg-gold text-black border-gold' : 'bg-transparent text-gold border-gold/30 hover:border-gold'}`}
+                  className={`relative flex items-center justify-center gap-3 px-8 py-4 rounded-full border transition-all duration-300 overflow-hidden min-w-[200px] ${isPlaying ? 'bg-gold text-black border-gold' : 'bg-transparent text-gold border-gold/30 hover:border-gold'}`}
                 >
-                  <div className="relative z-10 flex items-center gap-3">
-                    {isPlaying ? <Pause size={20} /> : <Play size={20} fill="currentColor" />}
+                  <div className="relative z-10 flex items-center gap-2.5">
+                    {isPlaying ? <Pause size={18} /> : <Play size={18} fill="currentColor" />}
                     <span className="font-black tracking-widest text-xs uppercase">{t.radio}</span>
                   </div>
                   {isPlaying && (
@@ -497,40 +498,40 @@ export default function App() {
           <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 2 }}
-            className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4 text-white/20"
+            transition={{ delay: 1.5 }}
+            className="mt-8 flex flex-col items-center gap-2 text-white/30"
           >
-            <span className="text-[9px] font-bold uppercase tracking-[0.3em]">{t.scrollDown}</span>
-            <ChevronDown size={16} className="animate-bounce" />
+            <span className="text-[8px] font-bold uppercase tracking-[0.3em]">{t.scrollDown}</span>
+            <ChevronDown size={14} className="animate-bounce" />
           </motion.div>
         </section>
 
         {/* --- LIBRARY SECTION (NATURAL HORIZONTAL SHOWCASE) --- */}
-        <section id="library" className="py-24 lg:py-36 bg-zinc-950/60 backdrop-blur-sm px-4 lg:px-12 overflow-hidden">
+        <section id="library" className="py-20 lg:py-28 bg-zinc-950/60 backdrop-blur-sm px-4 lg:px-12 overflow-hidden">
           <div className="max-w-7xl mx-auto">
-            <div className="flex items-center justify-between mb-12">
+            <div className="flex items-center justify-between mb-8 sm:mb-10">
               <div>
-                <h2 className="text-4xl md:text-6xl font-black italic tracking-tighter uppercase leading-none">
+                <h2 className="text-3xl md:text-5xl font-black italic tracking-tighter uppercase leading-none">
                   {t.books}
                 </h2>
-                <div className="w-16 h-1 bg-gold glow-gold mt-3" />
+                <div className="w-14 h-1 bg-gold glow-gold mt-2" />
               </div>
 
               {/* Horizontal Scroll Arrows Navigation */}
-              <div className="flex items-center gap-3">
+              <div className="flex items-center gap-2">
                 <button
                   onClick={() => scrollLibrary('right')}
-                  className="w-11 h-11 rounded-full border border-gold/30 bg-black/60 text-gold flex items-center justify-center hover:bg-gold hover:text-black transition-all shadow-glow cursor-pointer active:scale-95"
+                  className="w-10 h-10 rounded-full border border-gold/30 bg-black/60 text-gold flex items-center justify-center hover:bg-gold hover:text-black transition-all shadow-glow cursor-pointer active:scale-95"
                   title="السابق"
                 >
-                  <ChevronRight size={20} />
+                  <ChevronRight size={18} />
                 </button>
                 <button
                   onClick={() => scrollLibrary('left')}
-                  className="w-11 h-11 rounded-full border border-gold/30 bg-black/60 text-gold flex items-center justify-center hover:bg-gold hover:text-black transition-all shadow-glow cursor-pointer active:scale-95"
+                  className="w-10 h-10 rounded-full border border-gold/30 bg-black/60 text-gold flex items-center justify-center hover:bg-gold hover:text-black transition-all shadow-glow cursor-pointer active:scale-95"
                   title="التالي"
                 >
-                  <ChevronLeft size={20} />
+                  <ChevronLeft size={18} />
                 </button>
               </div>
             </div>
@@ -539,17 +540,17 @@ export default function App() {
             <div className="relative">
               <div 
                 ref={libraryScrollRef}
-                className="flex overflow-x-auto gap-5 sm:gap-6 pb-8 pt-2 px-1 snap-x snap-mandatory scroll-smooth cursor-grab active:cursor-grabbing"
+                className="flex overflow-x-auto gap-4 sm:gap-6 pb-6 pt-1 px-1 snap-x snap-mandatory scroll-smooth cursor-grab active:cursor-grabbing"
                 style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
               >
                 {BOOKS.map((book, i) => (
                   <motion.div
                     key={book.id}
-                    initial={{ opacity: 0, x: 30 }}
+                    initial={{ opacity: 0, x: 20 }}
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
-                    transition={{ delay: i * 0.08, duration: 0.6 }}
-                    className="snap-center w-48 sm:w-56 flex-shrink-0 bg-stone-900/80 border border-white/10 hover:border-gold/50 rounded-2xl p-4 transition-all duration-300 shadow-xl flex flex-col justify-between group cursor-pointer"
+                    transition={{ delay: i * 0.08, duration: 0.5 }}
+                    className="snap-center w-44 sm:w-52 flex-shrink-0 bg-stone-900/80 border border-white/10 hover:border-gold/50 rounded-2xl p-3.5 transition-all duration-300 shadow-xl flex flex-col justify-between group cursor-pointer"
                     onClick={() => setActivePreview({
                       url: book.image,
                       title: book.title[lang],
@@ -558,7 +559,7 @@ export default function App() {
                     })}
                   >
                     {/* Compact Natural Book Cover Image */}
-                    <div className="relative w-full h-64 sm:h-72 bg-black/90 rounded-xl overflow-hidden border border-white/10 group-hover:border-gold/40 transition-colors p-2 flex items-center justify-center mb-3">
+                    <div className="relative w-full h-56 sm:h-64 bg-black/90 rounded-xl overflow-hidden border border-white/10 group-hover:border-gold/40 transition-colors p-2 flex items-center justify-center mb-2.5">
                       <img 
                         src={book.image} 
                         alt={`غلاف كتاب ${book.title[lang]} - كريم عشماوي`} 
@@ -568,14 +569,14 @@ export default function App() {
                         referrerPolicy="no-referrer"
                       />
                       <div className="absolute top-2 right-2 p-1.5 rounded-full bg-black/80 text-gold border border-gold/30 opacity-0 group-hover:opacity-100 transition-opacity">
-                        <ZoomIn size={14} />
+                        <ZoomIn size={12} />
                       </div>
                     </div>
 
                     {/* Book Title & Year */}
-                    <div className="flex flex-col gap-1 text-center">
+                    <div className="flex flex-col gap-0.5 text-center">
                       <span className="text-[10px] font-black text-gold tracking-widest uppercase">{book.year}</span>
-                      <h3 className="text-lg font-black italic tracking-tighter uppercase text-white group-hover:text-gold transition-colors leading-tight">
+                      <h3 className="text-base sm:text-lg font-black italic tracking-tighter uppercase text-white group-hover:text-gold transition-colors leading-tight">
                         {book.title[lang]}
                       </h3>
                     </div>
@@ -587,25 +588,25 @@ export default function App() {
         </section>
 
         {/* --- YOUTUBE PLAYLIST SECTION --- */}
-        <section id="lectures" className="py-32 lg:py-48 bg-black px-6">
+        <section id="lectures" className="py-20 lg:py-32 bg-black px-4 sm:px-6">
           <div className="max-w-6xl mx-auto">
-            <div className="flex flex-col items-center text-center mb-24">
-              <span className="text-gold text-[10px] lg:text-xs font-black tracking-[0.5em] uppercase mb-4 block">YouTube Channel / سلسلة المحاضرات</span>
-              <h2 className="text-5xl md:text-7xl lg:text-8xl font-black italic tracking-tighter uppercase mb-6 leading-none">
+            <div className="flex flex-col items-center text-center mb-16">
+              <span className="text-gold text-[10px] sm:text-xs font-black tracking-[0.4em] uppercase mb-3 block">YouTube Channel / سلسلة المحاضرات</span>
+              <h2 className="text-4xl md:text-6xl lg:text-7xl font-black italic tracking-tighter uppercase mb-4 leading-none">
                 {t.playlist}
               </h2>
-              <div className="w-16 h-1 bg-gold glow-gold mx-auto mb-8" />
-              <p className="text-xs uppercase tracking-[0.2em] text-white/40 max-w-lg mx-auto">
+              <div className="w-16 h-1 bg-gold glow-gold mx-auto mb-6" />
+              <p className="text-[11px] sm:text-xs uppercase tracking-[0.2em] text-white/50 max-w-lg mx-auto">
                 {lang === 'ar' ? 'انقر على أيقونة القائمة في الزاوية العلوية من الفيديو لمشاهدة قائمة المحاضرات بالكامل' : 'Click the playlist icon in the top right corner of the video to view the full lecture list'}
               </p>
             </div>
 
             <motion.div 
-              initial={{ opacity: 0, y: 50 }}
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 1 }}
-              className="relative aspect-video w-full rounded-[2rem] lg:rounded-[4rem] overflow-hidden border border-white/5 shadow-2xl group bg-matte-black"
+              transition={{ duration: 0.8 }}
+              className="relative aspect-video w-full rounded-2xl sm:rounded-[2.5rem] overflow-hidden border border-white/10 shadow-2xl group bg-matte-black"
             >
               <iframe 
                 src="https://www.youtube.com/embed/videoseries?list=PLGUU_GZ29r2y0lhz9ZXxSUhl8DmCc6YL5&rel=0&modestbranding=1" 
@@ -613,22 +614,22 @@ export default function App() {
                 frameBorder="0" 
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
                 allowFullScreen
-                className="absolute inset-0 w-full h-full grayscale-[0.3] group-hover:grayscale-0 transition-all duration-1000"
+                className="absolute inset-0 w-full h-full grayscale-[0.2] group-hover:grayscale-0 transition-all duration-700"
               />
-              <div className="absolute inset-0 pointer-events-none border border-gold/5 rounded-[2rem] lg:rounded-[4rem] z-10" />
+              <div className="absolute inset-0 pointer-events-none border border-gold/10 rounded-2xl sm:rounded-[2.5rem] z-10" />
             </motion.div>
 
-            <div className="mt-20 flex flex-col items-center gap-8">
-              <div className="flex flex-wrap justify-center gap-6">
+            <div className="mt-12 flex flex-col items-center gap-6">
+              <div className="flex flex-wrap justify-center gap-4">
                 <motion.a
                   href="https://youtube.com/playlist?list=PLGUU_GZ29r2y0lhz9ZXxSUhl8DmCc6YL5"
                   target="_blank"
                   rel="noreferrer"
-                  whileHover={{ scale: 1.05, backgroundColor: "rgba(220, 38, 38, 0.1)" }}
-                  whileTap={{ scale: 0.95 }}
-                  className="flex items-center gap-4 px-12 py-6 rounded-full border border-red-600/30 bg-red-600/5 transition-all text-red-500 font-black tracking-[0.2em] uppercase text-xs"
+                  whileHover={{ scale: 1.03, backgroundColor: "rgba(220, 38, 38, 0.1)" }}
+                  whileTap={{ scale: 0.97 }}
+                  className="flex items-center gap-3 px-8 py-4 rounded-full border border-red-600/30 bg-red-600/5 transition-all text-red-500 font-black tracking-[0.2em] uppercase text-xs"
                 >
-                  <Youtube size={20} />
+                  <Youtube size={18} />
                   <span>{lang === 'ar' ? 'فتح السلسلة في يوتيوب' : 'Open Full Playlist'}</span>
                 </motion.a>
               </div>
@@ -637,34 +638,34 @@ export default function App() {
         </section>
 
         {/* --- PLATFORMS BENTO --- */}
-        <section id="platforms" className="py-32 lg:py-48 px-6">
+        <section id="platforms" className="py-20 lg:py-32 px-4 sm:px-6">
           <div className="max-w-6xl mx-auto">
-            <div className="mb-24 text-center">
-              <span className="text-gold text-[10px] lg:text-xs font-black tracking-[0.5em] uppercase mb-4 block">{t.platforms}</span>
-              <h2 className="text-4xl md:text-6xl lg:text-7xl font-black italic tracking-tighter uppercase">Digital Hub</h2>
+            <div className="mb-16 text-center">
+              <span className="text-gold text-[10px] sm:text-xs font-black tracking-[0.4em] uppercase mb-3 block">{t.platforms}</span>
+              <h2 className="text-3xl md:text-5xl lg:text-6xl font-black italic tracking-tighter uppercase">Digital Hub</h2>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-12 gap-6 lg:gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-5 sm:gap-6">
               {/* Main Blog Entry */}
               <motion.a 
                 href="https://kareemashmawy.netlify.app"
                 target="_blank"
                 rel="noreferrer"
-                whileHover={{ y: -5 }}
-                className="md:col-span-12 lg:col-span-8 p-12 lg:p-16 rounded-[3rem] bg-stone-900 border border-white/5 flex flex-col justify-between group overflow-hidden relative shadow-2xl"
+                whileHover={{ y: -4 }}
+                className="md:col-span-12 lg:col-span-8 p-8 sm:p-12 rounded-3xl sm:rounded-[2.5rem] bg-stone-900/90 border border-white/10 flex flex-col justify-between group overflow-hidden relative shadow-2xl min-h-[220px]"
               >
-                <div className="absolute top-0 right-0 w-80 h-80 bg-gold/5 blur-[120px] rounded-full animate-pulse" />
-                <div className="flex justify-between items-start relative z-10 mb-20">
-                  <div className="w-16 h-16 lg:w-20 lg:h-20 rounded-full border border-white/10 flex items-center justify-center bg-black/40 backdrop-blur-md">
-                    <BookOpen size={36} className="text-gold" />
+                <div className="absolute top-0 right-0 w-64 h-64 bg-gold/5 blur-[100px] rounded-full animate-pulse" />
+                <div className="flex justify-between items-start relative z-10 mb-12">
+                  <div className="w-14 h-14 sm:w-16 sm:h-16 rounded-full border border-white/10 flex items-center justify-center bg-black/40 backdrop-blur-md">
+                    <BookOpen size={28} className="text-gold" />
                   </div>
-                  <div className="p-4 rounded-full border border-white/10 group-hover:bg-gold group-hover:text-black transition-all">
-                    <ArrowUpRight size={28} />
+                  <div className="p-3 rounded-full border border-white/10 group-hover:bg-gold group-hover:text-black transition-all">
+                    <ArrowUpRight size={22} />
                   </div>
                 </div>
                 <div className="relative z-10">
-                  <h3 className="text-5xl lg:text-7xl font-black italic tracking-tighter uppercase mb-6 leading-none">{t.blog}</h3>
-                  <div className="text-[9px] md:text-[10px] font-black tracking-[0.4em] text-white/30 uppercase">kareemashmawy.netlify.app</div>
+                  <h3 className="text-3xl sm:text-5xl font-black italic tracking-tighter uppercase mb-2 leading-none">{t.blog}</h3>
+                  <div className="text-[9px] sm:text-[10px] font-black tracking-[0.3em] text-white/40 uppercase">kareemashmawy.netlify.app</div>
                 </div>
               </motion.a>
 
@@ -673,13 +674,13 @@ export default function App() {
                 href="https://www.scribd.com/user/902001852/Karim-Ashmawy"
                 target="_blank"
                 rel="noreferrer"
-                whileHover={{ y: -10 }}
-                className="md:col-span-6 lg:col-span-4 p-10 rounded-[3rem] glass-dark border border-white/5 flex flex-col justify-between group"
+                whileHover={{ y: -4 }}
+                className="md:col-span-6 lg:col-span-4 p-8 rounded-3xl glass-dark border border-white/5 flex flex-col justify-between group min-h-[180px]"
               >
-                <Library size={32} className="text-gold" />
+                <Library size={28} className="text-gold" />
                 <div>
-                  <h4 className="text-2xl font-black italic tracking-tighter uppercase mb-2 group-hover:text-gold transition-colors">{t.scribd}</h4>
-                  <div className="text-[10px] font-bold text-white/20 uppercase tracking-widest">Research Archive</div>
+                  <h4 className="text-xl font-black italic tracking-tighter uppercase mb-1 group-hover:text-gold transition-colors">{t.scribd}</h4>
+                  <div className="text-[10px] font-bold text-white/30 uppercase tracking-widest">Research Archive</div>
                 </div>
               </motion.a>
 
@@ -688,13 +689,13 @@ export default function App() {
                 href="https://www.ktobati.com/author/%D9%83%D8%B1%D9%8A%D9%85-%D8%B9%D8%B4%D9%85%D8%A7%D9%88%D9%8A"
                 target="_blank"
                 rel="noreferrer"
-                whileHover={{ y: -10 }}
-                className="md:col-span-6 lg:col-span-4 p-10 rounded-[3rem] glass-dark border border-gold/20 flex flex-col justify-between group relative overflow-hidden bg-stone-950/80"
+                whileHover={{ y: -4 }}
+                className="md:col-span-6 lg:col-span-4 p-8 rounded-3xl glass-dark border border-gold/20 flex flex-col justify-between group relative overflow-hidden bg-stone-950/80 min-h-[180px]"
               >
-                <div className="absolute top-0 right-0 w-32 h-32 bg-gold/5 blur-[50px] rounded-full" />
-                <BookIcon size={32} className="text-gold group-hover:scale-110 transition-transform" />
+                <div className="absolute top-0 right-0 w-28 h-28 bg-gold/5 blur-[40px] rounded-full" />
+                <BookIcon size={28} className="text-gold group-hover:scale-110 transition-transform" />
                 <div>
-                  <h4 className="text-2xl font-black italic tracking-tighter uppercase mb-2 group-hover:text-gold transition-colors">{t.ktobati}</h4>
+                  <h4 className="text-xl font-black italic tracking-tighter uppercase mb-1 group-hover:text-gold transition-colors">{t.ktobati}</h4>
                   <div className="text-[10px] font-bold text-gold/50 uppercase tracking-widest">المكتبة الرقمية • Digital Library</div>
                 </div>
               </motion.a>
@@ -704,13 +705,13 @@ export default function App() {
                 href="https://www.noor-book.com/%D9%83%D8%AA%D8%A8-%D9%83%D8%B1%D9%8A%D9%85-%D8%B9%D8%B4%D9%85%D8%A7%D9%88%D9%89-pdf"
                 target="_blank"
                 rel="noreferrer"
-                whileHover={{ y: -10 }}
-                className="md:col-span-6 lg:col-span-4 p-10 rounded-[3rem] glass-dark border border-white/5 flex flex-col justify-between group"
+                whileHover={{ y: -4 }}
+                className="md:col-span-6 lg:col-span-4 p-8 rounded-3xl glass-dark border border-white/5 flex flex-col justify-between group min-h-[180px]"
               >
-                <BookIcon size={32} className="text-white/40 group-hover:text-gold transition-colors" />
+                <BookIcon size={28} className="text-white/40 group-hover:text-gold transition-colors" />
                 <div>
-                  <h4 className="text-2xl font-black italic tracking-tighter uppercase mb-2">{t.noorBook}</h4>
-                  <div className="text-[10px] font-bold text-white/20 uppercase tracking-widest">Regional Library</div>
+                  <h4 className="text-xl font-black italic tracking-tighter uppercase mb-1">{t.noorBook}</h4>
+                  <div className="text-[10px] font-bold text-white/30 uppercase tracking-widest">Regional Library</div>
                 </div>
               </motion.a>
 
@@ -719,13 +720,13 @@ export default function App() {
                 href="https://foulabook.com/ar/author/%D9%83%D8%AA%D8%A8-%D9%83%D8%B1%D9%8A%D9%85-%D8%B9%D8%B4%D9%85%D8%A7%D9%88%D9%8A-pdf"
                 target="_blank"
                 rel="noreferrer"
-                whileHover={{ y: -10 }}
-                className="md:col-span-6 lg:col-span-4 p-12 rounded-[3rem] glass-dark border border-white/5 flex flex-col justify-between group"
+                whileHover={{ y: -4 }}
+                className="md:col-span-6 lg:col-span-4 p-8 rounded-3xl glass-dark border border-white/5 flex flex-col justify-between group min-h-[180px]"
               >
-                <BookIcon size={32} className="text-white/40 group-hover:text-gold transition-colors" />
+                <BookIcon size={28} className="text-white/40 group-hover:text-gold transition-colors" />
                 <div>
-                  <h4 className="text-2xl font-black italic tracking-tighter uppercase mb-2">{t.foulabook}</h4>
-                  <div className="text-[10px] font-bold text-white/20 uppercase tracking-widest">Community Library</div>
+                  <h4 className="text-xl font-black italic tracking-tighter uppercase mb-1">{t.foulabook}</h4>
+                  <div className="text-[10px] font-bold text-white/30 uppercase tracking-widest">Community Library</div>
                 </div>
               </motion.a>
 
@@ -734,15 +735,15 @@ export default function App() {
                 href="https://Quran-elkareem.netlify.app"
                 target="_blank"
                 rel="noreferrer"
-                whileHover={{ y: -10 }}
-                className="md:col-span-6 lg:col-span-4 p-12 rounded-[3.5rem] bg-black border border-gold/30 flex flex-col justify-between group overflow-hidden relative"
+                whileHover={{ y: -4 }}
+                className="md:col-span-6 lg:col-span-4 p-8 rounded-3xl bg-black border border-gold/30 flex flex-col justify-between group overflow-hidden relative min-h-[180px]"
               >
                 <div className="absolute inset-0 bg-gold/5 opacity-0 group-hover:opacity-100 transition-opacity" />
-                <BookOpen size={40} className="text-gold" />
+                <BookOpen size={32} className="text-gold" />
                 <div>
-                  <h4 className="text-3xl font-black italic tracking-tighter uppercase mb-3 text-white leading-tight">{t.quranKareem}</h4>
-                  <div className="flex items-center gap-3 text-gold text-[10px] font-black tracking-widest uppercase">
-                    Launch <ArrowUpRight size={14} />
+                  <h4 className="text-2xl font-black italic tracking-tighter uppercase mb-2 text-white leading-tight">{t.quranKareem}</h4>
+                  <div className="flex items-center gap-2 text-gold text-[10px] font-black tracking-widest uppercase">
+                    Launch <ArrowUpRight size={12} />
                   </div>
                 </div>
               </motion.a>
@@ -752,13 +753,13 @@ export default function App() {
                 href="https://Quran-fm.netlify.app"
                 target="_blank"
                 rel="noreferrer"
-                whileHover={{ y: -10 }}
-                className="md:col-span-6 lg:col-span-4 p-10 rounded-[3rem] border border-gold/10 flex flex-col justify-between group bg-zinc-950/50"
+                whileHover={{ y: -4 }}
+                className="md:col-span-6 lg:col-span-4 p-8 rounded-3xl border border-gold/10 flex flex-col justify-between group bg-zinc-950/50 min-h-[180px]"
               >
-                <Radio size={32} className="text-gold" />
+                <Radio size={28} className="text-gold" />
                 <div>
-                  <h4 className="text-2xl font-black italic tracking-tighter uppercase mb-2">{t.quranFm}</h4>
-                  <div className="text-[10px] font-bold text-gold/40 uppercase tracking-widest">Audio Resource</div>
+                  <h4 className="text-xl font-black italic tracking-tighter uppercase mb-1">{t.quranFm}</h4>
+                  <div className="text-[10px] font-bold text-gold/50 uppercase tracking-widest">Audio Resource</div>
                 </div>
               </motion.a>
             </div>
@@ -766,29 +767,29 @@ export default function App() {
         </section>
 
         {/* --- COLLABORATION --- */}
-        <section className="py-40 bg-[#060606] px-6">
+        <section className="py-24 lg:py-36 bg-[#060606] px-4 sm:px-6">
           <div className="max-w-6xl mx-auto">
-            <div className="grid lg:grid-cols-2 gap-16 items-center">
-              <div className="flex flex-col gap-10">
-                <h3 className="text-5xl lg:text-7xl font-black italic tracking-tighter uppercase mb-6 leading-none">{t.contact}</h3>
-                <p className="text-white/40 italic leading-loose max-w-md no-uppercase text-lg">For collaboration, lectures, or intellectual inquiries, please reach out directly through official channels.</p>
+            <div className="grid lg:grid-cols-2 gap-12 sm:gap-16 items-center">
+              <div className="flex flex-col gap-8">
+                <h3 className="text-4xl sm:text-6xl font-black italic tracking-tighter uppercase leading-none">{t.contact}</h3>
+                <p className="text-white/50 italic leading-relaxed max-w-md no-uppercase text-base sm:text-lg">For collaboration, lectures, or intellectual inquiries, please reach out directly through official channels.</p>
                 
                 <div className="flex gap-4">
-                  <a href="https://www.facebook.com/profile.php?id=61584022049474" target="_blank" rel="noreferrer" className="w-16 h-16 rounded-full border border-white/10 flex items-center justify-center hover:bg-gold hover:text-black transition-all">
-                    <Facebook size={20} />
+                  <a href="https://www.facebook.com/profile.php?id=61584022049474" target="_blank" rel="noreferrer" className="w-14 h-14 rounded-full border border-white/10 flex items-center justify-center hover:bg-gold hover:text-black transition-all">
+                    <Facebook size={18} />
                   </a>
-                  <a href="mailto:Karim_ashmawy@hotmail.com" className="w-16 h-16 rounded-full border border-white/10 flex items-center justify-center hover:bg-gold hover:text-black transition-all">
-                    <Mail size={20} />
+                  <a href="mailto:Karim_ashmawy@hotmail.com" className="w-14 h-14 rounded-full border border-white/10 flex items-center justify-center hover:bg-gold hover:text-black transition-all">
+                    <Mail size={18} />
                   </a>
                 </div>
               </div>
 
-              <div className="p-12 lg:p-16 rounded-[4rem] bg-matte-black border border-white/5 relative overflow-hidden group">
-                <div className="absolute top-0 right-0 w-64 h-64 bg-gold/5 blur-[100px] rounded-full" />
-                <span className="text-[10px] font-bold text-white/20 uppercase tracking-widest mb-4 block">Official Inquiry</span>
-                <span className="text-xl md:text-2xl font-bold select-all no-uppercase text-gold block mb-8">Karim_ashmawy@hotmail.com</span>
-                <div className="h-[1px] w-full bg-white/5 mb-8" />
-                <div className="flex items-center gap-3 text-white/40 text-[10px] font-bold uppercase tracking-widest">
+              <div className="p-8 sm:p-12 rounded-3xl sm:rounded-[3rem] bg-matte-black border border-white/10 relative overflow-hidden group">
+                <div className="absolute top-0 right-0 w-48 h-48 bg-gold/5 blur-[80px] rounded-full" />
+                <span className="text-[10px] font-bold text-white/30 uppercase tracking-widest mb-3 block">Official Inquiry</span>
+                <span className="text-lg sm:text-xl md:text-2xl font-bold select-all no-uppercase text-gold block mb-6 break-all">Karim_ashmawy@hotmail.com</span>
+                <div className="h-[1px] w-full bg-white/10 mb-6" />
+                <div className="flex items-center gap-2 text-white/50 text-[10px] font-bold uppercase tracking-widest">
                   <MapPin size={12} />
                   Cairo, Egypt
                 </div>
@@ -799,51 +800,51 @@ export default function App() {
       </main>
 
       {/* --- FOOTER --- */}
-      <footer id="footer" className="bg-matte-black pt-40 pb-20 border-t border-white/5 relative overflow-hidden">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[500px] bg-gold/5 blur-[200px] pointer-events-none" />
+      <footer id="footer" className="bg-matte-black pt-24 pb-16 border-t border-white/10 relative overflow-hidden">
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-[400px] bg-gold/5 blur-[180px] pointer-events-none" />
         
-        <div className="max-w-6xl mx-auto px-6 relative z-10">
-          <div className="flex flex-col lg:flex-row justify-between items-center lg:items-start gap-16 mb-40">
+        <div className="max-w-6xl mx-auto px-4 sm:px-6 relative z-10">
+          <div className="flex flex-col lg:flex-row justify-between items-center lg:items-start gap-10 mb-24">
             <div className="text-center lg:text-left rtl:lg:text-right">
-              <div className="text-5xl lg:text-6xl font-black italic tracking-tighter uppercase mb-4 tracking-[-0.05em]">{t.name}</div>
-              <div className="text-gold text-[10px] font-bold tracking-[0.4em] uppercase">{t.role}</div>
+              <div className="text-4xl sm:text-5xl lg:text-6xl font-black italic tracking-tighter uppercase mb-2">{t.name}</div>
+              <div className="text-gold text-[10px] sm:text-xs font-bold tracking-[0.3em] uppercase">{t.role}</div>
             </div>
 
-            <div className="flex flex-wrap justify-center gap-x-12 gap-y-6 text-[10px] font-black tracking-[0.3em] uppercase text-white/40">
+            <div className="flex flex-wrap justify-center gap-x-8 gap-y-4 text-[10px] font-black tracking-[0.25em] uppercase text-white/50">
               {navItems.map(item => (
-                <a key={item.label} href={item.href} className="hover:text-white transition-colors">{item.label}</a>
+                <a key={item.label} href={item.href} className="hover:text-gold transition-colors">{item.label}</a>
               ))}
             </div>
 
-            <div className="flex items-center gap-3 text-white/20 text-[10px] font-bold uppercase tracking-widest italic no-uppercase">
+            <div className="flex items-center gap-2 text-white/30 text-[10px] font-bold uppercase tracking-widest italic no-uppercase">
               <MapPin size={12} />
               Cairo, Egypt
             </div>
           </div>
 
-          <div className="flex flex-col items-center gap-10">
-             <div className="text-[150px] lg:text-[25vw] font-black italic tracking-tighter opacity-[0.03] leading-[0.7] select-none text-center mix-blend-overlay">
+          <div className="flex flex-col items-center gap-8">
+             <div className="text-[80px] sm:text-[140px] lg:text-[20vw] font-black italic tracking-tighter opacity-[0.03] leading-[0.7] select-none text-center mix-blend-overlay">
                 MATHAL <br /> NURUH
              </div>
              
              {/* VISITOR COUNTER */}
-             <div className="flex flex-col items-center gap-6 py-10 px-16 rounded-[3rem] bg-white/[0.03] border border-white/10 backdrop-blur-md shadow-2xl relative overflow-hidden group">
-                <div className="absolute inset-0 bg-gold/5 blur-[50px] opacity-0 group-hover:opacity-100 transition-opacity" />
-                <span className="text-[10px] font-black tracking-[0.5em] text-gold uppercase relative z-10">Live Statistics / إحصائيات مباشرة</span>
+             <div className="flex flex-col items-center gap-4 py-8 px-10 sm:px-14 rounded-3xl bg-white/[0.02] border border-white/10 backdrop-blur-md shadow-2xl relative overflow-hidden group">
+                <div className="absolute inset-0 bg-gold/5 blur-[40px] opacity-0 group-hover:opacity-100 transition-opacity" />
+                <span className="text-[10px] font-black tracking-[0.4em] text-gold uppercase relative z-10">Live Statistics / إحصائيات مباشرة</span>
                 <div className="flex flex-col items-center gap-2 relative z-10">
                   <img 
                     src="https://count.getloli.com/get/@karimashmawy_mathal?theme=asoul" 
                     alt="عداد الزوار المباشر لموقع كريم عشماوي"
                     title="إحصائيات الزوار المباشرة"
-                    className="h-12 opacity-90 hover:opacity-100 transition-all filter drop-shadow-[0_0_10px_rgba(197,160,89,0.3)]"
+                    className="h-10 opacity-90 hover:opacity-100 transition-all filter drop-shadow-[0_0_10px_rgba(197,160,89,0.3)]"
                     loading="lazy"
                     referrerPolicy="no-referrer"
                   />
-                  <div className="text-[9px] font-bold text-white/30 uppercase tracking-[0.2em] mt-2">Unique Visitors Count</div>
+                  <div className="text-[9px] font-bold text-white/30 uppercase tracking-[0.2em] mt-1">Unique Visitors Count</div>
                 </div>
              </div>
 
-             <p className="text-[9px] font-bold tracking-[0.5em] text-white/20 uppercase mt-20">{t.footer}</p>
+             <p className="text-[9px] font-bold tracking-[0.4em] text-white/30 uppercase mt-12">{t.footer}</p>
           </div>
         </div>
       </footer>
