@@ -12,7 +12,6 @@ import {
   X,
   MapPin,
   Library,
-  ChevronDown,
   ChevronLeft,
   ChevronRight,
   Youtube,
@@ -245,7 +244,7 @@ export default function App() {
       />
 
       {/* --- NAVIGATION --- */}
-      <nav className="fixed top-0 w-full z-50 px-4 sm:px-8 lg:px-16 py-3 lg:py-4 flex justify-between items-center bg-black/60 backdrop-blur-md border-b border-white/5">
+      <nav className="fixed top-0 w-full z-50 px-4 sm:px-8 lg:px-16 py-3 lg:py-4 flex justify-between items-center bg-black/75 backdrop-blur-md border-b border-white/10">
         <motion.div 
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -402,8 +401,8 @@ export default function App() {
       </AnimatePresence>
 
       <main onMouseMove={handleMouseMove}>
-        {/* --- HERO SECTION (OPTIMIZED BALANCED SPACING) --- */}
-        <section id="home" className="relative min-h-[90vh] lg:min-h-screen flex flex-col justify-center items-center text-center px-4 sm:px-6 pt-20 pb-12 lg:pt-24 lg:pb-16 overflow-hidden">
+        {/* --- HERO SECTION (COMPACT SLEEK HERO BANNER) --- */}
+        <section id="home" className="relative pt-20 pb-8 sm:pt-24 sm:pb-12 lg:pt-28 lg:pb-14 flex flex-col justify-center items-center text-center px-4 sm:px-6 overflow-hidden border-b border-white/10">
           {/* Background Image with Parallax & Overlay */}
           <div className="absolute inset-0 z-0">
             <motion.div 
@@ -418,7 +417,7 @@ export default function App() {
                 src="https://images.unsplash.com/photo-1505664194779-8beaceb93744?q=80&w=1400&auto=format&fit=crop" 
                 alt="خلفية ضوئية - كريم عشماوي" 
                 title="كريم عشماوي - مفكر وباحث حر"
-                className="w-full h-full object-cover lg:object-top opacity-25 grayscale contrast-125"
+                className="w-full h-full object-cover lg:object-top opacity-20 grayscale contrast-125"
                 loading="eager"
                 referrerPolicy="no-referrer"
               />
@@ -435,49 +434,49 @@ export default function App() {
             <div className="absolute inset-0 bg-gradient-to-b from-transparent via-matte-black/60 to-matte-black" />
           </div>
 
-          <div className="relative z-10 max-w-5xl w-full my-auto">
+          <div className="relative z-10 max-w-4xl w-full my-auto">
             <motion.div
               style={{
                 x: useTransform(smoothMouseX, [-0.5, 0.5], ['-10px', '10px']),
                 y: useTransform(smoothMouseY, [-0.5, 0.5], ['-10px', '10px']),
               }}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, ease: "easeOut" }}
+              transition={{ duration: 0.8, ease: "easeOut" }}
             >
-              <div className="text-gold text-[10px] sm:text-xs font-black tracking-[0.4em] mb-3 uppercase drop-shadow-glow">
+              <div className="text-gold text-[10px] sm:text-xs font-black tracking-[0.35em] mb-2 uppercase drop-shadow-glow">
                 {t.role}
               </div>
-              <h1 className="hero-title mb-4 relative">
+              <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black leading-tight tracking-tighter uppercase mb-3 relative">
                 <span className="relative z-10">{t.name}</span>
                 <span className="absolute inset-0 text-white/5 blur-sm -translate-y-1 select-none pointer-events-none">{t.name}</span>
               </h1>
-              <div className="w-20 h-[1px] bg-gold/40 mx-auto mb-6" />
-              <p className="max-w-3xl mx-auto text-base sm:text-xl lg:text-2xl text-white/85 font-medium leading-relaxed italic no-uppercase mb-8 drop-shadow-xl px-2">
+              <div className="w-16 h-[1px] bg-gold/40 mx-auto mb-4" />
+              <p className="max-w-2xl mx-auto text-xs sm:text-base lg:text-lg text-white/85 font-medium leading-relaxed italic no-uppercase mb-6 drop-shadow-xl px-2">
                 {t.summary}
               </p>
               
-              <div className="flex flex-col sm:flex-row gap-4 sm:gap-6 justify-center items-center">
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-5 justify-center items-center">
                 <motion.a
                   href="https://kareemashmawy.netlify.app"
                   target="_blank"
                   rel="noreferrer"
-                  whileHover={{ scale: 1.03, boxShadow: "0 0 25px rgba(197, 160, 89, 0.3)" }}
+                  whileHover={{ scale: 1.03, boxShadow: "0 0 20px rgba(197, 160, 89, 0.3)" }}
                   whileTap={{ scale: 0.97 }}
-                  className="luxury-button relative overflow-hidden group min-w-[200px] text-xs sm:text-sm py-4"
+                  className="luxury-button relative overflow-hidden group min-w-[180px] text-xs py-3 px-6"
                 >
                   <span className="relative z-10">{t.visitBlog}</span>
                   <div className="absolute inset-0 bg-white/20 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-700" />
                 </motion.a>
 
                 <motion.button 
-                  whileHover={{ scale: 1.03, boxShadow: "0 0 25px rgba(197, 160, 89, 0.2)" }}
+                  whileHover={{ scale: 1.03, boxShadow: "0 0 20px rgba(197, 160, 89, 0.2)" }}
                   whileTap={{ scale: 0.97 }}
                   onClick={toggleRadio}
-                  className={`relative flex items-center justify-center gap-3 px-8 py-4 rounded-full border transition-all duration-300 overflow-hidden min-w-[200px] ${isPlaying ? 'bg-gold text-black border-gold' : 'bg-transparent text-gold border-gold/30 hover:border-gold'}`}
+                  className={`relative flex items-center justify-center gap-2.5 px-6 py-3 rounded-full border transition-all duration-300 overflow-hidden min-w-[180px] ${isPlaying ? 'bg-gold text-black border-gold' : 'bg-transparent text-gold border-gold/30 hover:border-gold'}`}
                 >
-                  <div className="relative z-10 flex items-center gap-2.5">
-                    {isPlaying ? <Pause size={18} /> : <Play size={18} fill="currentColor" />}
+                  <div className="relative z-10 flex items-center gap-2">
+                    {isPlaying ? <Pause size={16} /> : <Play size={16} fill="currentColor" />}
                     <span className="font-black tracking-widest text-xs uppercase">{t.radio}</span>
                   </div>
                   {isPlaying && (
@@ -494,20 +493,10 @@ export default function App() {
               </div>
             </motion.div>
           </div>
-
-          <motion.div 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 1.5 }}
-            className="mt-8 flex flex-col items-center gap-2 text-white/30"
-          >
-            <span className="text-[8px] font-bold uppercase tracking-[0.3em]">{t.scrollDown}</span>
-            <ChevronDown size={14} className="animate-bounce" />
-          </motion.div>
         </section>
 
         {/* --- LIBRARY SECTION (NATURAL HORIZONTAL SHOWCASE) --- */}
-        <section id="library" className="py-20 lg:py-28 bg-zinc-950/60 backdrop-blur-sm px-4 lg:px-12 overflow-hidden">
+        <section id="library" className="py-16 lg:py-24 bg-zinc-950/60 backdrop-blur-sm px-4 lg:px-12 overflow-hidden">
           <div className="max-w-7xl mx-auto">
             <div className="flex items-center justify-between mb-8 sm:mb-10">
               <div>
